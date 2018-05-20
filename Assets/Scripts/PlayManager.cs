@@ -4,9 +4,10 @@ using UnityEngine;
 
 public class PlayManager : MonoBehaviour {
 	//クリア判定
-	public static bool clear = false;
+	public static bool clear;
 	//敵の数
-	private int enemy_num = 10;
+	private int enemy_num = 30;
+	private const int min_enemy_num = 10;
 	//プレイ中はtrue
 	public static bool start;
 	//敵のprefab
@@ -36,13 +37,33 @@ public class PlayManager : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
-		enemy = new GameObject[enemy_num];
-		TextManager.getText ("エンターを押すとスタート");
+		score = 0;
 		start = false;
+		clear = false;
 	}
 
 	// Update is called once per frame
 	void Update () {
+		if(!start){
+			TextManager.getText("score: " + score.ToString() + "\n");
+			if(clear){
+				TextManager.addText("clear\n");
+			}else{
+				TextManager.addText("not clear\n");
+			}
+			TextManager.addText("エンターを押すとスタート\n");
+			TextManager.addText("敵の数: " + enemy_num.ToString() + "体");
+			if(Input.GetKey(KeyCode.UpArrow)){
+				enemy_num++;
+			}
+			if(Input.GetKey(KeyCode.DownArrow)){
+				enemy_num--;
+				if(enemy_num < min_enemy_num){
+					enemy_num = min_enemy_num;
+				}
+			}
+			enemy = new GameObject[enemy_num];
+		}
 		//プレイ中でないのでエンター押し待ち
 		if (!start && Input.GetKeyDown (KeyCode.Return)) {
 			//プレイヤ初期化
@@ -69,6 +90,7 @@ public class PlayManager : MonoBehaviour {
 			if (!player.GetComponent<Player_Controller> ().stop) {
 				//矢印をゴールに向かせる
 				arrow.transform.localPosition = player.transform.localPosition + new Vector3 (0, -2f, 0);
+				//矢印のもとの向きが横向きなので修正
 				arrow.transform.localEulerAngles = goal.transform.localPosition - player.transform.localPosition + new Vector3 (0, 0, -90f);
 				//ゴールまで残りのy
 				distance = player.transform.localPosition.y - goalposition.y;
@@ -84,20 +106,14 @@ public class PlayManager : MonoBehaviour {
 			} else {
 				//プレイヤが止まってプレイ終了
 				//スコアの計算
-				score = 10f - Vector3.Distance (player.transform.localPosition, goal.transform.localPosition);
-				TextManager.getText ("score: " + score.ToString () + "\n");
+				score = 10f 
+				- 10f * Vector3.Distance (player.transform.localPosition, goal.transform.localPosition)
+				+ (enemy_num - min_enemy_num);
 				Destroy (arrow);
 				for (int i = 0; i < enemy_num; i++) {
 					Destroy (enemy[i]);
 				}
 				Destroy (goal);
-				//クリア判定
-				if (clear) {
-					TextManager.addText ("clear\n");
-				} else {
-					TextManager.addText ("not clear\n");
-				}
-				TextManager.addText ("エンターで再挑戦");
 				start = false;
 			}
 		}
