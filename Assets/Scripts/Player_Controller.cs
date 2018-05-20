@@ -16,7 +16,6 @@ public class Player_Controller : MonoBehaviour {
 		if(rb.velocity.y < stopspeed){
 			rb.velocity = new Vector3(rb.velocity.x, stopspeed, rb.velocity.z);
 		}
-		Debug.Log ("速度ベクトル: " + rb.velocity);
 		if(Input.GetKey(KeyCode.RightArrow)){
 			rb.AddForce(transform.right * speed);
 		}
