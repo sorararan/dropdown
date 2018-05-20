@@ -11,7 +11,7 @@ public class Player_Controller : MonoBehaviour {
 	private float speed = 0.05f;
 	//落下速度制限
 	[SerializeField]
-	private float stopspeed = -20f;
+	private float stopspeed = -30f;
 	//止まったらプレイ終了してスコア判定
 	public bool stop;
 

@@ -75,7 +75,7 @@ public class PlayManager : MonoBehaviour {
 			for (int i = 0; i < enemy_num; i++) {
 				enemy[i] = Instantiate (enemyprefab, new Vector3 (
 					UnityEngine.Random.Range (-30f, 30f),
-					UnityEngine.Random.Range (-90f, 90f),
+					UnityEngine.Random.Range (-90f, 70f),
 					0f), Quaternion.identity);
 			}
 			//ゴール生成
