@@ -3,6 +3,9 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class Player_Controller : MonoBehaviour {
+	private bool muteki;
+	//無敵時間のスコア減少分
+	private int mcounter;
 	//プレイヤのスタート位置
 	private Vector3 startpos = new Vector3 (0, 90, 0);
 	private Rigidbody rb;
@@ -21,6 +24,8 @@ public class Player_Controller : MonoBehaviour {
 		stop = false;
 		//一番初めはエンター待ちなので
 		rb.constraints = RigidbodyConstraints.FreezeAll;
+		mcounter = 0;
+		muteki = false;
 	}
 
 	// Update is called once per frame
@@ -39,6 +44,14 @@ public class Player_Controller : MonoBehaviour {
 			if (Input.GetKey (KeyCode.LeftArrow)) {
 				this.transform.position -= transform.right * speed * Time.deltaTime;
 			}
+			if(Input.GetKeyDown(KeyCode.B)){
+				this.GetComponent<SphereCollider>().isTrigger = true;
+				muteki = true;
+			}
+			if(muteki){
+				mcounter++;
+			}
+			
 			//プレイヤ停止して判定
 			if (Input.GetKeyDown (KeyCode.Space)) {
 				rb.constraints = RigidbodyConstraints.FreezeAll;
@@ -70,8 +83,15 @@ public class Player_Controller : MonoBehaviour {
 		this.stop = false;
 		this.transform.localPosition = startpos;
 		rb.constraints = RigidbodyConstraints.None;
+		mcounter = 0;
+		muteki = false;
+		this.GetComponent<SphereCollider>().isTrigger = false;
 	}
 	public bool getStop(){
 		return this.stop;
+	}
+
+	public int getCounter(){
+		return this.mcounter;
 	}
 }

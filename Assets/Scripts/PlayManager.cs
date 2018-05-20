@@ -88,7 +88,8 @@ public class PlayManager : MonoBehaviour {
 				//スコアの計算
 				score = 10f 
 				- 10f * Vector3.Distance (player.transform.localPosition, goal.transform.localPosition)
-				+ (enemy_num - min_enemy_num);
+				+ (enemy_num - min_enemy_num)
+				-player.GetComponent<Player_Controller>().getCounter();
 				Destroy (arrow);
 				for (int i = 0; i < enemy_num; i++) {
 					Destroy (enemy[i]);
