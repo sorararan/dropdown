@@ -9,7 +9,7 @@ public class PlayManager : MonoBehaviour {
 	private int enemy_num = 30;
 	private const int min_enemy_num = 10;
 	//プレイ中はtrue
-	public static bool start;
+	private static bool start;
 	//敵のprefab
 	[SerializeField]
 	private GameObject enemyprefab;
@@ -45,6 +45,7 @@ public class PlayManager : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
 		if(!start){
+			//プレイしてない時
 			TextManager.getText("score: " + score.ToString() + "\n");
 			if(clear){
 				TextManager.addText("clear\n");
@@ -63,31 +64,10 @@ public class PlayManager : MonoBehaviour {
 				}
 			}
 			enemy = new GameObject[enemy_num];
-		}
-		//プレイ中でないのでエンター押し待ち
-		if (!start && Input.GetKeyDown (KeyCode.Return)) {
-			//プレイヤ初期化
-			player.GetComponent<Player_Controller> ().init ();
-			player.GetComponent<Rigidbody> ().constraints = RigidbodyConstraints.None;
-			//矢印生成
-			arrow = Instantiate (arrowprefab, (player.transform.localPosition + new Vector3 (0, -2, 0)), Quaternion.identity);
-			//敵生成
-			for (int i = 0; i < enemy_num; i++) {
-				enemy[i] = Instantiate (enemyprefab, new Vector3 (
-					UnityEngine.Random.Range (-30f, 30f),
-					UnityEngine.Random.Range (-90f, 70f),
-					0f), Quaternion.identity);
-			}
-			//ゴール生成
-			goal = Instantiate (goalprefab, new Vector3 (UnityEngine.Random.Range (-30f, 30f), -80f, 0f), Quaternion.identity);
-			goalposition = goal.transform.position;
-			clear = false;
-			start = true;
-		}
-		//プレイスタート
-		if (start) {
+		}else if (start) {
+			//プレイスタート
 			//プレイヤが止まったらプレイ終了
-			if (!player.GetComponent<Player_Controller> ().stop) {
+			if (!player.GetComponent<Player_Controller> ().getStop()) {
 				//矢印をゴールに向かせる
 				arrow.transform.localPosition = player.transform.localPosition + new Vector3 (0, -2f, 0);
 				//矢印のもとの向きが横向きなので修正
@@ -117,5 +97,29 @@ public class PlayManager : MonoBehaviour {
 				start = false;
 			}
 		}
+		if (!start && Input.GetKeyDown (KeyCode.Return)) {
+			//プレイ開始する時
+			//プレイヤ初期化
+			player.GetComponent<Player_Controller> ().init ();
+			player.GetComponent<Rigidbody> ().constraints = RigidbodyConstraints.None;
+			//矢印生成
+			arrow = Instantiate (arrowprefab, (player.transform.localPosition + new Vector3 (0, -2, 0)), Quaternion.identity);
+			//敵生成
+			for (int i = 0; i < enemy_num; i++) {
+				enemy[i] = Instantiate (enemyprefab, new Vector3 (
+					UnityEngine.Random.Range (-30f, 30f),
+					UnityEngine.Random.Range (-90f, 70f),
+					0f), Quaternion.identity);
+			}
+			//ゴール生成
+			goal = Instantiate (goalprefab, new Vector3 (UnityEngine.Random.Range (-30f, 30f), -80f, 0f), Quaternion.identity);
+			goalposition = goal.transform.position;
+			clear = false;
+			start = true;
+		}
+	}
+	
+	 public static bool getStart(){
+		return start;
 	}
 }

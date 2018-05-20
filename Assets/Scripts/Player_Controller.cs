@@ -13,7 +13,7 @@ public class Player_Controller : MonoBehaviour {
 	[SerializeField]
 	private float stopspeed = -30f;
 	//止まったらプレイ終了してスコア判定
-	public bool stop;
+	private bool stop;
 
 	// Use this for initialization
 	void Start () {
@@ -26,7 +26,7 @@ public class Player_Controller : MonoBehaviour {
 	// Update is called once per frame
 	void FixedUpdate () {
 		//スタート
-		if (PlayManager.start) {
+		if (PlayManager.getStart()) {
 			//落下速度制限
 			if (rb.velocity.y < stopspeed) {
 				rb.velocity = new Vector3 (rb.velocity.x, stopspeed, rb.velocity.z);
@@ -70,5 +70,8 @@ public class Player_Controller : MonoBehaviour {
 		this.stop = false;
 		this.transform.localPosition = startpos;
 		rb.constraints = RigidbodyConstraints.None;
+	}
+	public bool getStop(){
+		return this.stop;
 	}
 }
