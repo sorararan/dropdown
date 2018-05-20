@@ -9,6 +9,7 @@ public class PlayManager : MonoBehaviour {
 	[SerializeField]
 	private GameObject player;
 	private Vector3 goalposition;
+	private float distance;
 
 	// Use this for initialization
 	void Start () {
@@ -18,12 +19,14 @@ public class PlayManager : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
+		distance = player.transform.localPosition.y - goalposition.y;
+		TextManager.getText("残り" + distance.ToString() + "\n");
 		if(player.transform.localPosition.x > goalposition.x){
-			TextManager.getText("もっと左へ");
+		TextManager.addText("もっと左へ");
 		}else if(player.transform.localPosition.x < goalposition.x){
-			TextManager.getText("もっと右へ");
+			TextManager.addText("もっと右へ");
 		}else{
-			TextManager.getText("そこ");
+			TextManager.addText("そこ");
 		}
 	}
 }

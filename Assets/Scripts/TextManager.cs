@@ -10,6 +10,10 @@ public class TextManager : MonoBehaviour {
 		txt.text = text;
 	}
 
+	public static void addText(string text){
+		txt.text += text;
+	}
+
 	void Start(){
 		txt = GameObject.Find("Text").GetComponent<Text>();
 	}

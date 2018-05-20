@@ -4,7 +4,9 @@ using UnityEngine;
 
 public class Player_Controller : MonoBehaviour {
 	private Rigidbody rb;
+	[SerializeField]
 	private float speed = 10f;
+	[SerializeField]
 	private float stopspeed = -20f;
 	private bool stop;
 	// Use this for initialization
@@ -24,7 +26,7 @@ public class Player_Controller : MonoBehaviour {
 		if (Input.GetKey (KeyCode.LeftArrow)) {
 			rb.AddForce (-transform.right * speed);
 		}
-		if (Input.GetKey (KeyCode.Space)) {
+		if (Input.GetKeyDown (KeyCode.Space)) {
 			if (stop) {
 				rb.constraints = RigidbodyConstraints.None;
 				stop = !stop;
