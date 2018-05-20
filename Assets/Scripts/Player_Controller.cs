@@ -8,7 +8,7 @@ public class Player_Controller : MonoBehaviour {
 	private float speed = 10f;
 	[SerializeField]
 	private float stopspeed = -20f;
-	private bool stop;
+	public bool stop;
 	// Use this for initialization
 	void Start () {
 		rb = this.GetComponent<Rigidbody> ();
