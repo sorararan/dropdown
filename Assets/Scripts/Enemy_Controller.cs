@@ -7,7 +7,7 @@ public class Enemy_Controller : MonoBehaviour {
 	private int counter_stop = 100;
 	private float plusx;
 	private float plusy;
-	private float plusz = 0f;
+	private const float plusz = 0f;
 
 	// Update is called once per frame
 	void Update () {
