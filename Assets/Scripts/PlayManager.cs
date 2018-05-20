@@ -69,7 +69,7 @@ public class PlayManager : MonoBehaviour {
 			//プレイヤが止まったらプレイ終了
 			if (!player.GetComponent<Player_Controller> ().getStop()) {
 				//矢印をゴールに向かせる
-				arrow.transform.localPosition = player.transform.localPosition + new Vector3 (0, -2f, 0);
+				arrow.transform.localPosition = player.transform.localPosition + new Vector3 (0, -2f, -2f);
 				//矢印のもとの向きが横向きなので修正
 				arrow.transform.localEulerAngles = goal.transform.localPosition - player.transform.localPosition + new Vector3 (0, 0, -90f);
 				//ゴールまで残りのy
